@@ -1,0 +1,6 @@
+**/__pycache__/
+alembic/
+alembic.ini
+0407_end.txt
+
+.env
