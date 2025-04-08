@@ -7,6 +7,8 @@ import logging
 import joblib
 from db import get_db 
 from models import IrisPrediction
+import logging
+from datetime import datetime
 
 # 머신러닝 모델 로드
 model = joblib.load("iris_model.joblib")
@@ -16,9 +18,17 @@ router = APIRouter()
 # 기본값이 directory="templates" 입니다.
 templates = Jinja2Templates(directory="templates", auto_reload=True)
 
-
+from datetime import datetime
 @router.get("/")
 def read_form(request: Request):
+    log_data = {
+        "event" : "access",
+        "endpoint" : "/",
+        "client_ip" : request.client.host,
+        "timestamp" : datetime.now().isoformat(),
+        "status" : "success"
+    }
+    logging.info(log_data)
     return templates.TemplateResponse("input_form.html", {"request":request})
 
 
@@ -55,6 +65,19 @@ def predict(
         db.commit()  # 트랜잭션 커밋
         db.refresh(new_prediction)  # 새로 추가된 데이터 갱신
 
+        log_data = {
+        "event" : "prediction",
+        "endpoint" : "/predict",
+        "client_ip" : request.client.host,
+        "timestamp" : datetime.now().isoformat(),
+        "sepal_length": sepal_length,
+        "sepal_width": sepal_width,
+        "petal_length": petal_length,
+        "petal_width": petal_width,
+        "prediction": pred,
+        "status" : "success"
+        }
+        logging.info(log_data)
         # 예측 결과 페이지 반환
         return templates.TemplateResponse("result.html", {
             "request": request,
@@ -66,6 +89,14 @@ def predict(
         })
     except Exception as e:
         # 예외 발생 시 에러 메시지 출력 및 HTTP 500 에러 반환
-        logging.error(f"Error during prediction: {e}")
+        log_data = {
+        "event" : "prediction",
+        "endpoint" : "/predict",
+        "client_ip" : request.client.host,
+        "timestamp" : datetime.now().isoformat(),
+        "error": str(e),
+        "status" : "failure"
+        }
+        logging.error(log_data)
         raise HTTPException(status_code=500, detail="Internal Server Error")
     

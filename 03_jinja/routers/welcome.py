@@ -8,7 +8,7 @@ templates = Jinja2Templates(directory="templates", auto_reload=True)
 welcome_router = APIRouter()
 # 아무것도 받지 않으면 손님이 뜨고, name에 뭔가 값을 전달하면 해당 값이 뜨도록 
 @welcome_router.get("/")
-@welcome_router.get("/{name}")
+# @welcome_router.get("/{name}")
 def welcome(name: str="손님"):
     """
     그냥 json으로 결과 확인

@@ -14,14 +14,14 @@ os.makedirs(log_dir, exist_ok=True)  # logs 디렉토리 생성 (이미 존재�
 log_file = os.path.join(log_dir, f"ml-serving-{datetime.now().strftime('%Y-%m-%d')}.log")
 
 # 로깅 설정
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format="%(asctime)s - %(levelname)s - %(message)s",
-#     handlers=[
-#         logging.FileHandler(log_file, encoding="utf-8"),  # 로그를 파일에 저장
-#         logging.StreamHandler()  # 콘솔에도 출력
-#     ]
-# )
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler(log_file, encoding="utf-8"),  # 로그를 파일에 저장
+        logging.StreamHandler()  # 콘솔에도 출력
+    ]
+)
 
 
 # FastAPI 애플리케이션 인스턴스 생성

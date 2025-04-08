@@ -1,0 +1,2 @@
+# 02_orm, 03_jinja 디렉토리를 참고하셔서
+# 재사용 가능한 파일들로 db.py, schemas.py, models.py, main.py, routers/model_router.py 작성

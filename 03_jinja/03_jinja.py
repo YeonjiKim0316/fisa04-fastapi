@@ -3,6 +3,6 @@ from routers import welcome, user
 
 app = FastAPI()
 
-app.include_router(welcome.welcome_router, prefix="/welcome")
-app.include_router(user.user_router, prefix="/user")
+app.include_router(welcome.welcome_router, prefix="/welcome", tags=["Welcome"])
+app.include_router(user.user_router, prefix="/user", tags=["User"])
 
